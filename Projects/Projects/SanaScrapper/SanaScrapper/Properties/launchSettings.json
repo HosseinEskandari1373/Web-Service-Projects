@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SanaScrapper": {
+      "commandName": "Project",
+      "workingDirectory": "C:\\Users\\h.eskandari\\source\\repos\\SanaScrapper\\SanaScrapper"
+    }
+  }
+}

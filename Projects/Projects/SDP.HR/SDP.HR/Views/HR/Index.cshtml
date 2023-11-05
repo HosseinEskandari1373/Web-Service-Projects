@@ -1,0 +1,788 @@
+﻿@using SDP.HR.Models;
+@using SDP.HR.Classes;
+@using SDP.HR.Controllers;
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <noscript>
+        Javascript is disabled.
+        <meta HTTP-EQUIV="REFRESH" content="0; url=HR/JavaScriptProblem">
+    </noscript>
+    <script>
+        var GetCitiesURL = "@Url.Action("GetCities", "HR")";
+        var PostBackURL = "@Url.Action("Index", "HR")";
+        var ShowCaptchaImageURL = "@Url.Action("ShowCaptchaImage", "HR")";
+        var CVUploaderURL = "@Url.Action("UploadCVFile", "Uploader")";
+        var ImageUploaderURL = "@Url.Action("UploadImageFile", "Uploader")";
+        var MaxCVSize_MB = @(AppInfo.MaxCVSize_MB);
+        var MaxImageSize_MB = @(AppInfo.MaxImageSize_MB);
+        var CaptchaExpireDate = 0;
+        var CaptchaTime_Second = 240;
+    </script>
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/png" href="~/Content/Icons/favicon.ico" />
+    <link href="~/Content/Styles/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/Styles/persianDatepicker-default.css" rel="stylesheet" />
+    <link href="~/Content/Styles/MainStyle.css" rel="stylesheet" />
+    <script src="~/Content/Scripts/jquery-3.0.0.min.js"></script>
+    <script src="~/Content/Scripts/bootstrap.min.js"></script>
+    <script src="~/Content/Scripts/MainScript.js"></script>
+    <script src="~/Content/Scripts/persianDatepicker.js"></script>
+
+    <script src="~/Content/Scripts/AutoNumeric.js"></script>
+    <title>سامانه استخدام کارجویان</title>
+</head>
+<body data-spy="scroll" data-target=".navbar" data-offset="55">
+    <nav class="navbar navbar-expand-sm bg-info navbar-dark fixed-top  d-none d-sm-block d-md-block" id="#nvbr">
+        <ul class="navbar-nav">
+            <li class="nav-item ">
+                <a class="nav-link " href="#pnlJobOpportunity">فرصت های موجود</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#pnlCertificateInfo">اطلاعات شناسنامه ای</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#pnlContactInfo">اطلاعات تماس</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#pnlEducationInfo">سوابق تحصیلی</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#pnlWorkInfo">تجربیات شغلی</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#pnlLanguageInfo">زبان های خارجی</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#pnlRecommender">معرف</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#pnlEtc">سایر موارد</a>
+            </li>
+        </ul>
+    </nav>
+    <form id="FormUpload"
+          enctype="multipart/form-data" method="post">
+        <div class="container">
+            <div id="pnlJobOpportunity" class="panel panel-default">
+                <div class="panel-heading">فرصت های موجود</div>
+                <div class="panel-body">
+                    <div id="lng_collapse" class="text-center">
+                        <div class="table-responsive">
+                            <div class="table">
+                                <table id="jobTable" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr class="info">
+                                            <th>
+                                                انتخاب
+                                            </th>
+                                            <th>
+                                                عنوان
+                                            </th>
+                                            <th>
+                                                شرایط
+                                            </th>
+                                            <th>
+                                                محل خدمت
+                                            </th>
+                                            <th>
+                                                تاریخ اعتبار
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="job_body">
+                                        @foreach (JobOpportunity jo in BaseInfo.JobOpportunityList)
+                                        {
+                                            <tr id="tr_job_Id_@(jo.Id) " class="job-tr">
+                                                <td>
+                                                    <input id="chbx_job_Id_@(jo.Id)" name="Job_Id_@(jo.Id)" type="checkbox" value="" class="job-Checkbox">
+                                                </td>
+                                                <td>
+                                                    @jo.Title
+                                                </td>
+                                                <td>
+                                                    @jo.Condition
+                                                </td>
+                                                <td>
+                                                    @jo.Place
+                                                </td>
+                                                <td>
+                                                    @(new PersianDate(jo.ExpireDate).ToDateString("/"))
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="pnlCertificateInfo" class="panel panel-default">
+                <div class="panel-heading"><span>اطلاعات شناسنامه ای</span></div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label" for="FirstName">نام</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input class="form-control txt-req" id="txtFirstName" name="FirstName" placeholder="نام" type="text" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">نام خانوادگی</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input class="form-control txt-req" id="txtLastName" name="LastName" placeholder="نام خانوادگی" type="text" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">نام پدر</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input class="form-control" id="txtFatherName" name="FatherName" placeholder="نام پدر" type="text" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">کد ملی</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input class="form-control txt-req" id="txtNationalId" name="NationalId" placeholder="کدملی" type="number" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">شماره شناسنامه</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input class="form-control txt-req" id="txtCertificateNo" name="CertificateNo" placeholder="شماره شناسنامه" type="text" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">محل صدور شناسنامه</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input class="form-control" id="txtCertificatePlace" name="CertificatePlace" placeholder="محل صدور شناسنامه" type="text" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">تاریخ تولد</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input type="text" id="txtBirthDate" name="BirthDate" placeholder="تاریخ تولد" class="form-control txt-req PersianDatePicker" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">ملیت</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input class="form-control txt-req" id="txtNationality" name="Nationality" placeholder="ملیت" type="text" value="">
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">استان محل تولد</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <select class="form-control select-control  cmb-req" id="cmbxBirthProvince" name="BirthProvince" placeholder="استان محل تولد" type="text" value="">
+                                                @foreach (Province p in BaseInfo.ProvinceList)
+                                                {
+                                                    <option value="@p.Id">@p.Name</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">شهر محل تولد </label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <select class="form-control select-control  cmb-req" id="cmbxBirthCity" name="BirthPlace" placeholder="شهر محل تولد" type="text" value=""></select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">دین</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input class="form-control txt-req" id="txtReligion" name="Religion" placeholder="دین" type="text" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">مذهب</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input class="form-control txt-req" id="txtSubReligion" name="SubReligion" placeholder="مذهب" type="text" value="">
+                                            @*<select class="form-control select-control  cmb-req" id="cmbxReligion" name="ReligionId" placeholder="انتخاب دین">
+                                                    @foreach (Religion r in BaseInfo.ReligionList)
+                                                    {
+                                                        <option value="@r.Id">@r.FaName</option>
+                                                    }
+                                                </select>*@
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">وضعیت تأهل</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+
+                                            <select class="form-control select-control  cmb-req" id="cmbxMaritalStatus" name="MaritalStatusId" placeholder="وضعیت تأهل">
+                                                @foreach (MaritalStatus ms in BaseInfo.MaritalStatusList)
+                                                {
+                                                    <option value="@ms.Id">@ms.FaName</option>
+                                                }
+                                            </select>
+
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">جنسیت</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <select class="form-control select-control  cmb-req" id="cmbxGender" name="GenderId" placeholder="جنسیت">
+                                                @foreach (Gender g in BaseInfo.GenderList)
+                                                {
+                                                    <option value="@g.Id" data-extra="@g.EnName">@g.FaName</option>
+                                                }
+                                            </select>
+
+                                        </div>
+                                    </div>
+                                    <div class="form-group row MilitaryStatus">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">وضعیت خدمت</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <select class="form-control select-control  cmb-req" id="cmbxMilitaryStatus" name="MilitaryStatusId" placeholder="وضعیت خدمت">
+                                                @foreach (MilitaryStatus ms in BaseInfo.MilitaryStatusList)
+                                                {
+                                                    <option value="@ms.Id" data-extra="@ms.EnName">@ms.FaName</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="pnlContactInfo" class="panel panel-default">
+                <div class="panel-heading"><span>اطلاعات تماس</span></div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">تلفن ثابت</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input class="form-control txt-req" id="txtPhoneNo" name="PhoneNo" placeholder="تلفن ثابت" type="tel" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">تلفن همراه</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input class="form-control txt-req" id="txtMobileNo" name="MobileNo" placeholder="تلفن همراه" type="tel" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">ایمیل</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input class="form-control txt-req type-email" id="txtEmail" name="Email" placeholder="ایمیل" type="email" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">استان</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <select class="form-control select-control  cmb-req" id="cmbxProvince" name="ProvinceId" placeholder="استان" type="text" value="">
+                                                @foreach (Province p in BaseInfo.ProvinceList)
+                                                {
+                                                    <option value="@p.Id">@p.Name</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">شهر</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <select class="form-control select-control  cmb-req" id="cmbxCity" name="City" placeholder="شهر" type="text" value=""></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">کد پستی</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input class="form-control" id="txtPostalCode" name="PostalCode" placeholder="کد پستی" type="text" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">آدرس</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <textarea class="form-control textarea-height txt-req" cols="20" id="txtAddress" name="Address" placeholder="آدرس" rows="2"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="pnlEducationInfo" class="panel panel-default">
+                <div class="panel-heading">سوابق تحصیلی</div>
+                <div class="panel-body">
+                    <div id="edu_collapse" class="text-center">
+                        <span class="addrecord text-right">
+                            به منظور ثبت سوابق تحصیلی، دکمه ی
+                        </span>
+
+                        <button id="btnAddEducation" type="button" class="btn btn-success  btn-sm" onclick="AddEducationRow();">
+                            افزودن
+                        </button>
+                        <span class="addrecord text-right">
+                            را بزنید.
+                        </span>
+
+                        <div class="table-responsive">
+                            <div class="table">
+                                <table id="eduTable" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr class="info">
+                                            <th>
+                                                مقطع تحصیلی
+                                            </th>
+                                            <th>
+                                                رشته تحصیلی
+                                            </th>
+                                            <th>
+                                                گرایش
+                                            </th>
+                                            <th>
+                                                نوع محل تحصیل
+                                            </th>
+                                            <th>
+                                                نام محل تحصیل
+                                            </th>
+                                            <th>
+                                                فارغ التحصیل
+                                            </th>
+                                            <th>
+                                                سال پایان
+                                            </th>
+                                            <th>
+                                                معدل کل
+                                            </th>
+
+                                            <th>
+
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="edu_body">
+                                        <tr id="tr_edu_r10" class="edu-tr">
+                                            <td>
+                                                <select id="cmbx_edu_degree_r10" name="Education_EducationDegreeId_r10" class="edu-degree form-control  cmb-req" placeholder="مدرک تحصیلی">
+                                                    @foreach (EducationDegree ed in BaseInfo.EducationDegreeList)
+                                                    {
+                                                        <option value="@ed.Id" data-extra="@ed.EnName">@ed.FaName</option>
+                                                    }
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input id="txt_edu_field_r10" name="Education_Field_r10" type="text" value="" class="edu-field txt-req form-control" placeholder="رشته">
+                                            </td>
+                                            <td>
+                                                <input id="txt_edu_subField_r10" name="Education_SubField_r10" type="text" value="" class="edu-subField txt-req form-control" placeholder="گرایش">
+                                            </td>
+
+                                            <td>
+                                                <select id="cmbx_edu_instituteTypeId_r10" name="Education_InstituteTypeId_r10" class="edu-instituteTypeId form-control cmb-req" placeholder="نوع محل تحصیل">
+                                                    @foreach (InstituteType it in BaseInfo.InstituteTypeList)
+                                                    {
+                                                        <option value="@it.Id">@it.Name</option>
+                                                    }
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input id="txt_edu_institute_r10" name="Education_Institute_r10" type="text" value="" class="edu-institute txt-req form-control" placeholder="محل تحصیل">
+                                            </td>
+                                            <td>
+                                                <input id="chbx_edu_IsFinished_r10" name="Education_IsFinished_r10" type="checkbox" class="checkbox edu-isFinished" checked />
+                                            </td>
+                                            <td>
+                                                <input id="txt_edu_endYear_r10" name="Education_EndYear_r10" type="number" value="" class="edu-endYear  txt-req type-int form-control" placeholder="سال اتمام تحصیل" min="1350" max="@PersianDate.Now.Year">
+                                            </td>
+                                            <td>
+                                                <input id="txt_edu_gpa_r10" name="Education_GPA_r10" type="text" value="" class="edu-gpa  txt-req type-float form-control" placeholder="معدل" data-minvalue="10" data-maxvalue="20" min="10" max="20">
+                                            </td>
+                                            <td>
+                                                <button type="button" id="btnRemove_edu_r10" class="btn btn-danger" onclick="RemoveGridRow(this);">حذف</button>
+                                            </td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="pnlWorkInfo" class="panel panel-default">
+                <div class="panel-heading">تجربیات شغلی</div>
+                <div class="panel-body">
+                    <div id="wrk_collapse" class="text-center">
+                        <span class="addrecord text-right">
+                            به منظور ثبت تجربیات شغلی، دکمه ی
+                        </span>
+
+                        <button type="button" id="btnAddWorkRow" class="btn btn-success btn-sm " onclick="AddWorkRow();">
+                            افزودن
+                        </button>
+                        <span class="addrecord text-right">
+                            را بزنید.
+                        </span>
+                        <div id="divWork">
+                            <div id="divNoJobHistory">
+                                <span>
+                                    هیچ سابقه کاری ندارم
+                                </span>
+                                <input type="checkbox" id="chbxNoJobHistory" />
+                            </div>
+                            <div class="row workRow" id="tr_wrk_r10">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label" for="CompanyName">نام شرکت</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input id="txt_wrk_companyName_r10" name="Work_CompanyName_r10" maxlength="250" type="text" value="" class="wrk-companyName txt-req form-control" placeholder="نام شرکت">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">سمت</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input id="txt_wrk_post_r10" name="Work_Post_r10" maxlength="250" type="text" value="" class="wrk-post txt-req form-control" placeholder="سِمَت">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">شرح وظایف</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <textarea id="txt_wrk_duties_r10" maxlength="4000" name="Work_Duties_r10" type="text" class="wrk-duties txt-req form-control " placeholder="وظایف" cols="20" rows="5"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">شروع همکاری</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input type="text" id="txt_wrk_startDate_r10" name="Work_StartDate_r10" placeholder="شروع همکاری" class="form-control txt-req PersianDatePicker" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">پایان همکاری</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input type="text" id="txt_wrk_endDate_r10" name="Work_EndDate_r10" placeholder="پایان همکاری" class="form-control txt-req PersianDatePicker" />
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">علت ترک</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input id="txt_wrk_leaveReason_r10" name="Work_LeaveReason_r10" maxlength="250" type="text" value="" class="wrk-leaveReason txt-req form-control" placeholder="علت ترک">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">آخرین حقوق ماهیانه (ریال)</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input id="txt_wrk_lastSalary_r10" name="Work_LastSalary_r10" type="text" value="" class="txt-money wrk-lastSalary txt-req type-float form-control " min="10000" max="999999999" placeholder="آخرین حقوق">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">تلفن تماس</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input id="txt_wrk_phoneNo_r10" name="Work_PhoneNo_r10" type="text" value="" class="wrk-phoneNo txt-req type-float form-control" placeholder="تلفن تماس">
+                                        </div>
+                                    </div>
+                                    <button type="button" id="btnRemove_wrk_r10" class="btn btnRemoveRow btn-danger" onclick="RemoveGridRow(this);">حذف</button>
+                                </div>
+                                <hr />
+                                <hr />
+                                <hr />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="pnlLanguageInfo" class="panel panel-default">
+                <div class="panel-heading">زبان های خارجی</div>
+                <div class="panel-body">
+                    <div id="lng_collapse" class="text-center">
+                        <span class="addrecord text-right">
+                            به منظور ثبت مهارت در زبان های خارجی، دکمه ی
+                        </span>
+
+                        <button type="button" class="btn btn-success btn-sm " onclick="AddLanguageRow();">
+                            افزودن
+                        </button>
+                        <span class="addrecord text-right">
+                            را بزنید .
+                        </span>
+                        <div class="table-responsive">
+                            <div class="table">
+                                <table id="lngTable" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr class="info">
+                                            <th>
+                                                زبان
+                                            </th>
+                                            <th>
+                                                مهارت در خواندن
+                                            </th>
+                                            <th>
+                                                مهارت در نوشتن
+                                            </th>
+                                            <th>
+                                                مهارت در مکالمه
+                                            </th>
+                                            <th>
+
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="lng_body">
+                                        <tr id="tr_lng_r10" class="lng-tr">
+                                            <td>
+                                                <select id="cmbx_lng_name_r10" name="Lang_ForeignLanguageId_r10" class="lng-name form-control  cmb-req">
+                                                    @foreach (ForeignLanguage fl in BaseInfo.ForeignLanguageList)
+                                                    {
+                                                        <option value="@fl.Id">@fl.FaName</option>
+                                                    }
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select id="cmbx_lng_reading_r10" name="Lang_ReadingSkillLevelId_r10" class="lng-reading form-control  cmb-req" placeholder="مهارت در خواندن">
+                                                    @foreach (SkillLevel sl in BaseInfo.SkillLevelList)
+                                                    {
+                                                        <option value="@sl.Id">@sl.Name</option>
+                                                    }
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select id="cmbx_lng_writing_r10" name="Lang_WritingSkillLevelId_r10" class="lng-writing form-control  cmb-req" placeholder="مهارت در نوشتن">
+                                                    @foreach (SkillLevel sl in BaseInfo.SkillLevelList)
+                                                    {
+                                                        <option value="@sl.Id">@sl.Name</option>
+                                                    }
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <select id="cmbx_lng_speaking_r10" name="Lang_SpeakingSkillLevelId_r10" class="lng-speaking form-control  cmb-req" placeholder="مهارت در مکالمه">
+                                                    @foreach (SkillLevel sl in BaseInfo.SkillLevelList)
+                                                    {
+                                                        <option value="@sl.Id">@sl.Name</option>
+                                                    }
+                                                </select>
+
+                                            </td>
+                                            <td>
+                                                <button type="button" id="btnRemove_lng_r10" class="btn btn-danger" onclick="RemoveGridRow(this);">حذف</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="pnlRecommender" class="panel panel-default">
+                <div class="panel-heading"><span>معرف</span></div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">نام</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input class="form-control txt-req" id="txtRecommenderFirstName" name="RecommenderFirstName" placeholder="نام معرف" type="text" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">نام خانوادگی</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input class="form-control txt-req" id="txtRecommenderLastName" name="RecommenderLastName" placeholder="نام خانوادگی معرف" type="text" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">نسبت</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input class="form-control txt-req" id="txtRecommenderRelationship" name="RecommenderRelationship" placeholder="نسبت شما با معرف" type="text" value="">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">شغل</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input class="form-control txt-req" id="txtRecommenderJob" name="RecommenderJob" placeholder="شغل معرف" type="text" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">تلفن تماس</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input class="form-control txt-req" id="txtRecommenderPhone" name="RecommenderPhone" placeholder="تلفن تماس معرف" type="text" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">آدرس</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <textarea class="form-control textarea-height txt-req" cols="20" id="txtRecommenderAddress" name="RecommenderAddress" placeholder="آدرس معرف" rows="2"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="pnlEtc" class="panel panel-default">
+                <div class="panel-heading"><span>سایر موارد</span></div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-10 col-md-offset-1">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">مهارت ها</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <textarea class="form-control textarea-height txt-req" cols="20" id="txtSkill" name="Skill" placeholder="مهارت ها" rows="2"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">نرم افزارهای تخصصی</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <textarea class="form-control textarea-height txt-req" cols="20" id="txtComputerInfo" name="ComputerInfo" placeholder="لیست نرم افزارهای تخصصی که به آنها تسلط دارید" rows="2"></textarea>
+                                        </div>
+                                    </div>
+                                    <div id="divSuggestedJob" class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">متقاضی کار در پست</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input class="form-control txt-req" id="txtSuggestedJob" name="SuggestedJob" placeholder="پست پیشنهادی" type="text" value="">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">حقوق ماهیانه درخواستی (ریال)</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input id="txt_expectedSalary" name="ExpectedSalary" type="text" value="" class="txt-money  txt-req type-float form-control " min="10000" max="999999999" placeholder="حقوق ماهیانه درخواستی (ریال)">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">نحوه آشنایی با سایت</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <select id="cmbx_connectionLink" name="ConnectionLinkId" class="lng-speaking form-control  cmb-req" placeholder="مهارت در مکالمه">
+                                                @foreach (ConnectionLink cl in BaseInfo.ConnectionLinkList)
+                {
+                                <option value="@cl.Id">@cl.Name</option>
+}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">آیا شما یا یکی از نزدیکان شما با شرکت های دیگری که در تولید خوراک دام و طیور فعالیت دارند همکاری نموده اید؟</label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <select id="cmbx_FamiliarEmployee" name="FamiliarEmployeeId" class="lng-speaking form-control  cmb-req" placeholder="آشنایی با شرکت های دام و طیور">
+                                                <option value="0">خیر</option>
+                                                <option value="1">بله</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">
+                                            فایل رزومه<br />
+                                            <span class="resume-description">فایل رزومه‌ی خود را با فرمت pdf یا docx و با حجم نهایتا @AppInfo.MaxCVSize_MB مگ ارسال نمائيد.</span>
+                                        </label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input type="file" accept=".doc, .docx, .pdf" name="UploadedCVFile" id="txtUploadCVFile" />
+                                            <button class="btn btn-primary start" onclick="UploadCVFile();" type="button" id="btnUploadCV">
+                                                آپلود رزومه
+                                            </button>
+                                            <label id="lblSuccessCVUpload" class="text-success d-none float-right">رزومه با موفقیت آپلود شد.</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">
+                                            فایل تصویر<br />
+                                            <span class="resume-description">تصویر‌ خود را با فرمت jpg یا png و با حجم نهایتا @AppInfo.MaxImageSize_MB مگ ارسال نمائيد.</span>
+                                        </label>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input type="file" accept=".jpg, .jpeg, .png" name="UploadedImageFile" id="txtUploadImageFile" />
+                                            <img id="blah" src="~/Content/Images/Unknown.png" alt="personnel image" />
+                                            <button class="btn btn-primary start" onclick="UploadImageFile();"
+                                                    type="button" id="btnUploadImage">
+                                                آپلود تصویر
+                                            </button>
+                                            <label id="lblSuccessImageUpload" class="text-success d-none float-right">تصویر با موفقیت آپلود شد.</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row mt-3">
+                                        <label class="col-md-4 col-sm-4 col-xs-12 control-label">
+                                            عبارت امنیتی<br />
+                                            <span class="resume-description">عدد را وارد نمایید</span>
+                                        </label>
+
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+
+                                            <input class="txt-req captchControl" id="txtCaptchCode" name="CaptchaCode" placeholder="عبارت امنیتی" type="text" value="">
+                                            <img src="~/Content/Icons/refresh.png" onclick="CaptchaReferesh();" />
+                                            <img class="captchControl" id="imgCaptcha" src="@Url.Action("ShowCaptchaImage", "HR",PersianDate.Now.To14DigitString())" alt="Captcha" onclick="CaptchaReferesh();">
+                                            <label  class="control-label"  id="lblCaptchaExpire" style="color:red">
+                                                ثانیه تا انقضا<br />
+                                            </label>
+                                        </div>
+
+                                    </div>
+                                    <div class="form-group row">
+                                        <div class="col-md-4 col-sm-4 col-xs-12"></div>
+                                        <div class="col-md-8 col-sm-8 col-xs-12">
+                                            <input id="btnSubmit" type="button" class="btn btn-success btn-sm float-left " value="ارسال اطلاعات" onclick="SendData();" />
+                                        </div>
+                                    </div>
+                                    <p class="alert alert-info">اپلیکشین‌هایی که بصورت کامل و دقیق ارسال میگردند، در اولویت بالاتری قرار خواهد گرفت. لطفا در پر کردن اطلاعات فرم دقت کافی را داشته باشید</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="myModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        اطلاعات با موفقیت ارسال شد
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="window.location = 'http://www.index-holding.com'">تایید</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-131028708-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-131028708-1');
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+trigger:
+- master
+
+pool:
+  name: 'Pool-Windows'
+
+steps:
+- task: DotNetCoreCLI@2
+  displayName: restore
+  inputs:
+    command: restore
+    projects: '**/*.csproj'
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet build'
+  inputs:
+    projects: '**/*.csproj'
+- task: DotNetCoreCLI@2
+  displayName: publish
+  inputs:
+    command: publish
+    arguments: '-o $(Build.ArtifactStagingDirectory)'
+
+- powershell: |
+   # Write your PowerShell commands here.
+   
+   ls $(Build.ArtifactStagingDirectory)\
+   rename-item $(Build.ArtifactStagingDirectory)\s.zip -newname $(Build.BuildNumber).zip
+   ls $(Build.ArtifactStagingDirectory)\
+  displayName: 'PowerShell Script'
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: drop'
+  inputs:
+    publishLocation: FilePath
+    TargetPath: '$(personal_unc_path)$(Build.DefinitionName)\$(Build.BuildNumber)'
+- powershell: |
+   ls $(build.sourcesDirectory)
+   
+  displayName: '----- LS sourcesDirectory  -----'
+

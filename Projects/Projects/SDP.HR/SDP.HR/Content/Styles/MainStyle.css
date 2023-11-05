@@ -1,0 +1,275 @@
+﻿@font-face {
+    font-family: 'IranianSans';
+    src: url('../Fonts/IranianSans/IranianSans.eot') format('embedded-opentype'), url('../Fonts/IranianSans/IranianSans.ttf') format('truetype'), url('../Fonts/IranianSans/IranianSans.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'BYekan';
+    src: url('../Fonts/BYekan/BYekan.ttf') format('truetype'), url('../Fonts/BYekan/BYEKAN.TTF.eot') format('embedded-opentype'), url('../Fonts/BYekan/BYekan.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'BBadr';
+    src: url('../Fonts/BBadr/BBadr.ttf') format('truetype'), url('../Fonts/BBadr/BBadr.woff') format('woff'), url('../Fonts/BBadr/BBADR_0.TTF.eot') format('embedded-opentype');
+}
+
+.yekan-font {
+    font-family: BYekan;
+}
+
+.badr-font {
+    font-family: BBadr;
+}
+
+.iraniansans-font {
+    font-family: IranianSans;
+}
+
+.farsi-font {
+    font-family: IranianSans,BYekan,BBadr;
+}
+
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: IranianSans,BYekan,BBadr;
+    font-size: 14px;
+    line-height: 30px;
+    direction: rtl;
+    text-align: right;
+    line-height: 1.42857143;
+    margin-bottom:25px;
+    padding-top:55px;
+    position:relative;
+}
+
+@media(min-width:768px) {
+    .col-sm-1,
+    .col-sm-2,
+    .col-sm-3,
+    .col-sm-4,
+    .col-sm-5,
+    .col-sm-6,
+    .col-sm-7,
+    .col-sm-8,
+    .col-sm-9,
+    .col-sm-10,
+    .col-sm-11,
+    .col-sm-12 {
+        float: right
+    }
+}
+
+@media(min-width:992px) {
+    .col-md-1,
+    .col-md-2,
+    .col-md-3,
+    .col-md-4,
+    .col-md-5,
+    .col-md-6,
+    .col-md-7,
+    .col-md-8,
+    .col-md-9,
+    .col-md-10,
+    .col-md-11,
+    .col-md-12 {
+        float: right
+    }
+
+    .col-md-offset-1 {
+        margin-right: 8.33333333%
+    }
+}
+
+@media(min-width:1200px) {
+    .col-lg-1,
+    .col-lg-2,
+    .col-lg-3,
+    .col-lg-4,
+    .col-lg-5,
+    .col-lg-6,
+    .col-lg-7,
+    .col-lg-8,
+    .col-lg-9,
+    .col-lg-10,
+    .col-lg-11,
+    .col-lg-12 {
+        float: right
+    }
+
+    .col-lg-offset-1 {
+        margin-right: 8.333333332%
+    }
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    height: 34px !important;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s
+}
+
+.panel {
+    margin-bottom: 20px;
+    background-color: #fff;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    -webkit-box-shadow: 0 1px 1px rgba(0, 0, 0, .05);
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .05)
+}
+
+.panel-body {
+    padding: 15px;
+    background-color: ivory;
+}
+
+.panel-heading {
+    background-color: khaki;
+    padding: 10px 15px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    cursor: pointer;
+}
+
+.padding-right-0 {
+    padding-right: 0 !important
+}
+
+.padding-left-0 {
+    padding-left: 0 !important
+}
+
+.panel-heading {
+    padding-right: 75px;
+}
+
+.edu-degree {
+    max-width: 150px;
+}
+
+
+.edu-field {
+    max-width: 150px;
+}
+
+.edu-subField {
+    max-width: 90px;
+}
+
+.edu-instituteTypeId {
+    max-width: 180px;
+}
+
+.edu-institute {
+    max-width: 180px;
+}
+
+.edu-endYear {
+    max-width: 90px;
+}
+
+.edu-gpa {
+    max-width: 80px;
+}
+
+.invalidComponent, .errorComponent {
+    border-color: red !important;
+}
+
+thead {
+    background-color: #4e5d6c;
+    color: white;
+}
+
+
+
+#txtAddress{
+    height: 180px !important
+}
+#txtRecommenderAddress {
+    height: 80px !important
+}
+
+.addrecord {
+    display: inline;
+}
+
+#imgCaptcha {
+    cursor: pointer;
+}
+
+.captchControl {
+    vertical-align: middle;
+    margin-top: 8px;
+    margin-left: 8px;
+    height: 35px;
+    width: 100px;
+    display: inline-block;
+    right: 50%;
+    left: 50%;
+}
+
+#txtSkill, #txtRecommender, #txtComputerInfo {
+    height: 120px !important;
+}
+
+.wrk-duties {
+    height: 130px !important;
+}
+
+.btnRemoveRow {
+    float: left;
+}
+
+#divWork {
+    padding-top: 15px;
+}
+.workRow
+{
+    border-style:solid;
+    border-width:2px;
+    border-color:gray;
+    padding:15px;
+    margin-bottom:5px;
+}
+#btnUploadCV, #btnUploadImage {
+    float: left;
+}
+#jobTable
+{
+    font-family:Tahoma;
+    font-size:smaller;
+}
+tr[id^="tr_edu_r"] input, tr[id^="tr_edu_r"]  select {
+    padding:0px;
+    margin:0px;
+    text-align:center;
+}
+tr[id^="tr_edu_r"] td {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+#divNoJobHistory {
+    background-color: #ffeaea;
+    display: table-row;
+    color: #e24a96;
+}
+.resume-description {
+    font-family: Tahoma;
+    font-size: small;
+    font-style: italic;
+    color: #241ff1;
+}

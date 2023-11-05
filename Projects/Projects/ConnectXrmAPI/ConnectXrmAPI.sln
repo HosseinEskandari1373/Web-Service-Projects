@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30804.86
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConnectXrmAPI", "ConnectXrmAPI\ConnectXrmAPI.csproj", "{7A72A60F-A2E8-4031-A594-E1EE2D1A4B6F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7A72A60F-A2E8-4031-A594-E1EE2D1A4B6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7A72A60F-A2E8-4031-A594-E1EE2D1A4B6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7A72A60F-A2E8-4031-A594-E1EE2D1A4B6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7A72A60F-A2E8-4031-A594-E1EE2D1A4B6F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0E27D4B3-930F-4B6C-AB71-639BEC39E94F}
+	EndGlobalSection
+EndGlobal

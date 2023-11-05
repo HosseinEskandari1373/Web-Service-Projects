@@ -1,0 +1,47 @@
+# Starter pipeline
+# Start with a minimal pipeline that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+
+pool:
+  name: DefaultPool
+
+stages:
+
+- stage:
+  displayName: One
+  jobs:
+  - job:
+    steps:
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'restore'
+        projects: '**/*.csproj'
+        feedsToUse: 'config'
+        nugetConfigPath: 'nuget.config'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'build'
+        projects: '**/*.csproj'
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'test'
+        projects: '**/*Test/*.csproj'
+
+- stage: 
+  displayName: Two
+  jobs:
+  - deployment: 
+    environment:
+      name: ENV-QA
+      resourceType: Virtual Machin
+    strategy:
+     runOnce:
+       deploy: 
+        steps:
+        - task: DotNetCoreCLI@2
+          inputs:
+            command: 'publish'
+            publishWebProjects: true
+        steps:
+          - script: echo successful publish

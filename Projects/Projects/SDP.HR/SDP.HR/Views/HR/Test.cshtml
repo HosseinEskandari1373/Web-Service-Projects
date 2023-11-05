@@ -1,0 +1,39 @@
+﻿
+<script src="~/Content/Scripts/jquery-3.0.0.min.js"></script><div id="FormContent">
+    <form id="FormUpload"
+          enctype="multipart/form-data" method="post">
+            <input type="file"
+                   name="UploadCVFile" id="UploadCVFile" />
+    </form>
+</div>
+
+<script type="text/javascript">
+    function UploadCVFile() {
+        var form = $('#FormUpload')[0];
+        var dataString = new FormData(form);
+        $.ajax({
+            url: '/Uploader/Upload',  //Server script to process data
+            type: 'POST',
+            xhr: function () {  // Custom XMLHttpRequest
+                var myXhr = $.ajaxSettings.xhr();
+                if (myXhr.upload) { // Check if upload property exists
+                    //myXhr.upload.onprogress = progressHandlingFunction
+                }
+                return myXhr;
+            },
+            //Ajax events
+            success: function () {
+                alert('ok');
+            },
+            error: function () {
+                alert('err');
+            },
+            // Form data
+            data: dataString,
+            //Options to tell jQuery not to process data or worry about content-type.
+            cache: false,
+            contentType: false,
+            processData: false
+        });
+    }
+</script>

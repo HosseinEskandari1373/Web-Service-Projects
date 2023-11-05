@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:tns="http://schemas.microsoft.com/xrm/2011/Contracts/Discovery" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://schemas.microsoft.com/xrm/2011/Contracts/Discovery" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema xmlns:ser="http://schemas.microsoft.com/2003/10/Serialization/" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/xrm/2011/Contracts/Discovery">
+      <xsd:element name="Execute">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="request" nillable="true" type="tns:DiscoveryRequest" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="DiscoveryRequest">
+        <xsd:sequence />
+      </xsd:complexType>
+      <xsd:element name="DiscoveryRequest" nillable="true" type="tns:DiscoveryRequest" />
+      <xsd:complexType name="RetrieveOrganizationsRequest">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:DiscoveryRequest">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" name="AccessType" type="tns:EndpointAccessType" />
+              <xsd:element minOccurs="0" name="IsInternalCrossGeoServerRequest" type="xsd:boolean" />
+              <xsd:element minOccurs="0" name="Release" type="tns:OrganizationRelease" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:element name="RetrieveOrganizationsRequest" nillable="true" type="tns:RetrieveOrganizationsRequest" />
+      <xsd:simpleType name="EndpointAccessType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Default" />
+          <xsd:enumeration value="Internet" />
+          <xsd:enumeration value="Intranet" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:element name="EndpointAccessType" nillable="true" type="tns:EndpointAccessType" />
+      <xsd:simpleType name="OrganizationRelease">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Current" />
+          <xsd:enumeration value="V5" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:element name="OrganizationRelease" nillable="true" type="tns:OrganizationRelease" />
+      <xsd:complexType name="RetrieveUserIdByExternalIdRequest">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:DiscoveryRequest">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" name="ExternalId" nillable="true" type="xsd:string" />
+              <xsd:element minOccurs="0" name="OrganizationId" type="ser:guid" />
+              <xsd:element minOccurs="0" name="OrganizationName" nillable="true" type="xsd:string" />
+              <xsd:element minOccurs="0" name="Release" nillable="true" type="xsd:string" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:element name="RetrieveUserIdByExternalIdRequest" nillable="true" type="tns:RetrieveUserIdByExternalIdRequest" />
+      <xsd:complexType name="RetrieveOrganizationRequest">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:DiscoveryRequest">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" name="AccessType" type="tns:EndpointAccessType" />
+              <xsd:element minOccurs="0" name="Release" type="tns:OrganizationRelease" />
+              <xsd:element minOccurs="0" name="UniqueName" nillable="true" type="xsd:string" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:element name="RetrieveOrganizationRequest" nillable="true" type="tns:RetrieveOrganizationRequest" />
+      <xsd:element name="ExecuteResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="ExecuteResult" nillable="true" type="tns:DiscoveryResponse" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:complexType name="DiscoveryResponse">
+        <xsd:sequence />
+      </xsd:complexType>
+      <xsd:element name="DiscoveryResponse" nillable="true" type="tns:DiscoveryResponse" />
+      <xsd:complexType name="RetrieveUserIdByExternalIdResponse">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:DiscoveryResponse">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" name="UserId" type="ser:guid" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:element name="RetrieveUserIdByExternalIdResponse" nillable="true" type="tns:RetrieveUserIdByExternalIdResponse" />
+      <xsd:complexType name="RetrieveOrganizationResponse">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:DiscoveryResponse">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" name="Detail" nillable="true" type="tns:OrganizationDetail" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:element name="RetrieveOrganizationResponse" nillable="true" type="tns:RetrieveOrganizationResponse" />
+      <xsd:complexType name="OrganizationDetail">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="Endpoints" nillable="true" type="tns:EndpointCollection" />
+          <xsd:element minOccurs="0" name="FriendlyName" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="OrganizationId" type="ser:guid" />
+          <xsd:element minOccurs="0" name="OrganizationVersion" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="State" type="tns:OrganizationState" />
+          <xsd:element minOccurs="0" name="UniqueName" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="UrlName" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="OrganizationDetail" nillable="true" type="tns:OrganizationDetail" />
+      <xsd:complexType name="EndpointCollection">
+        <xsd:sequence>
+          <xsd:element xmlns:q1="http://schemas.datacontract.org/2004/07/System.Collections.Generic" minOccurs="0" maxOccurs="unbounded" name="KeyValuePairOfEndpointTypestringztYlk6OT" type="q1:KeyValuePairOfEndpointTypestringztYlk6OT" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="EndpointCollection" nillable="true" type="tns:EndpointCollection" />
+      <xsd:simpleType name="EndpointType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="OrganizationService" />
+          <xsd:enumeration value="OrganizationDataService" />
+          <xsd:enumeration value="WebApplication" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:element name="EndpointType" nillable="true" type="tns:EndpointType" />
+      <xsd:simpleType name="OrganizationState">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="Enabled" />
+          <xsd:enumeration value="Disabled" />
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:element name="OrganizationState" nillable="true" type="tns:OrganizationState" />
+      <xsd:complexType name="RetrieveOrganizationsResponse">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:DiscoveryResponse">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" name="Details" nillable="true" type="tns:OrganizationDetailCollection" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:element name="RetrieveOrganizationsResponse" nillable="true" type="tns:RetrieveOrganizationsResponse" />
+      <xsd:complexType name="OrganizationDetailCollection">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" maxOccurs="unbounded" name="OrganizationDetail" nillable="true" type="tns:OrganizationDetail" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="OrganizationDetailCollection" nillable="true" type="tns:OrganizationDetailCollection" />
+    </xsd:schema>
+    <xs:schema xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/" attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="anyType" nillable="true" type="xs:anyType" />
+      <xs:element name="anyURI" nillable="true" type="xs:anyURI" />
+      <xs:element name="base64Binary" nillable="true" type="xs:base64Binary" />
+      <xs:element name="boolean" nillable="true" type="xs:boolean" />
+      <xs:element name="byte" nillable="true" type="xs:byte" />
+      <xs:element name="dateTime" nillable="true" type="xs:dateTime" />
+      <xs:element name="decimal" nillable="true" type="xs:decimal" />
+      <xs:element name="double" nillable="true" type="xs:double" />
+      <xs:element name="float" nillable="true" type="xs:float" />
+      <xs:element name="int" nillable="true" type="xs:int" />
+      <xs:element name="long" nillable="true" type="xs:long" />
+      <xs:element name="QName" nillable="true" type="xs:QName" />
+      <xs:element name="short" nillable="true" type="xs:short" />
+      <xs:element name="string" nillable="true" type="xs:string" />
+      <xs:element name="unsignedByte" nillable="true" type="xs:unsignedByte" />
+      <xs:element name="unsignedInt" nillable="true" type="xs:unsignedInt" />
+      <xs:element name="unsignedLong" nillable="true" type="xs:unsignedLong" />
+      <xs:element name="unsignedShort" nillable="true" type="xs:unsignedShort" />
+      <xs:element name="char" nillable="true" type="tns:char" />
+      <xs:simpleType name="char">
+        <xs:restriction base="xs:int" />
+      </xs:simpleType>
+      <xs:element name="duration" nillable="true" type="tns:duration" />
+      <xs:simpleType name="duration">
+        <xs:restriction base="xs:duration">
+          <xs:pattern value="\-?P(\d*D)?(T(\d*H)?(\d*M)?(\d*(\.\d*)?S)?)?" />
+          <xs:minInclusive value="-P10675199DT2H48M5.4775808S" />
+          <xs:maxInclusive value="P10675199DT2H48M5.4775807S" />
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="guid" nillable="true" type="tns:guid" />
+      <xs:simpleType name="guid">
+        <xs:restriction base="xs:string">
+          <xs:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}" />
+        </xs:restriction>
+      </xs:simpleType>
+    </xs:schema>
+    <xsd:schema xmlns:tns="http://schemas.datacontract.org/2004/07/System.Collections.Generic" elementFormDefault="qualified" targetNamespace="http://schemas.datacontract.org/2004/07/System.Collections.Generic">
+      <xsd:complexType name="KeyValuePairOfstringanyType">
+        <xsd:annotation>
+          <xsd:appinfo>
+            <GenericType Name="KeyValuePairOf{0}{1}{#}" Namespace="http://schemas.datacontract.org/2004/07/System.Collections.Generic" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+              <GenericParameter Name="string" Namespace="http://www.w3.org/2001/XMLSchema" />
+              <GenericParameter Name="anyType" Namespace="http://www.w3.org/2001/XMLSchema" />
+            </GenericType>
+            <IsValueType xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsValueType>
+          </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element name="key" nillable="true" type="xsd:string" />
+          <xsd:element name="value" nillable="true" type="xsd:anyType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="KeyValuePairOfstringanyType" nillable="true" type="tns:KeyValuePairOfstringanyType" />
+      <xsd:complexType name="KeyValuePairOfEndpointTypestringztYlk6OT">
+        <xsd:annotation>
+          <xsd:appinfo>
+            <GenericType Name="KeyValuePairOf{0}{1}{#}" Namespace="http://schemas.datacontract.org/2004/07/System.Collections.Generic" xmlns="http://schemas.microsoft.com/2003/10/Serialization/">
+              <GenericParameter Name="EndpointType" Namespace="http://schemas.microsoft.com/xrm/2011/Contracts/Discovery" />
+              <GenericParameter Name="string" Namespace="http://www.w3.org/2001/XMLSchema" />
+            </GenericType>
+            <IsValueType xmlns="http://schemas.microsoft.com/2003/10/Serialization/">true</IsValueType>
+          </xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+          <xsd:element xmlns:q2="http://schemas.microsoft.com/xrm/2011/Contracts/Discovery" name="key" type="q2:EndpointType" />
+          <xsd:element name="value" nillable="true" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="KeyValuePairOfEndpointTypestringztYlk6OT" nillable="true" type="tns:KeyValuePairOfEndpointTypestringztYlk6OT" />
+    </xsd:schema>
+    <xsd:schema xmlns:tns="http://schemas.microsoft.com/xrm/2011/Contracts" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/xrm/2011/Contracts">
+      <xsd:complexType name="DiscoveryServiceFault">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:BaseServiceFault">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" name="InnerFault" nillable="true" type="tns:DiscoveryServiceFault" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:element name="DiscoveryServiceFault" nillable="true" type="tns:DiscoveryServiceFault" />
+      <xsd:complexType name="BaseServiceFault">
+        <xsd:sequence>
+          <xsd:element minOccurs="0" name="ErrorCode" type="xsd:int" />
+          <xsd:element minOccurs="0" name="ErrorDetails" nillable="true" type="tns:ErrorDetailCollection" />
+          <xsd:element minOccurs="0" name="Message" nillable="true" type="xsd:string" />
+          <xsd:element minOccurs="0" name="Timestamp" type="xsd:dateTime" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="BaseServiceFault" nillable="true" type="tns:BaseServiceFault" />
+      <xsd:complexType name="ErrorDetailCollection">
+        <xsd:sequence>
+          <xsd:element xmlns:q3="http://schemas.datacontract.org/2004/07/System.Collections.Generic" minOccurs="0" maxOccurs="unbounded" name="KeyValuePairOfstringanyType" type="q3:KeyValuePairOfstringanyType" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="ErrorDetailCollection" nillable="true" type="tns:ErrorDetailCollection" />
+      <xsd:complexType name="OrganizationServiceFault">
+        <xsd:complexContent mixed="false">
+          <xsd:extension base="tns:BaseServiceFault">
+            <xsd:sequence>
+              <xsd:element minOccurs="0" name="InnerFault" nillable="true" type="tns:OrganizationServiceFault" />
+              <xsd:element minOccurs="0" name="TraceText" nillable="true" type="xsd:string" />
+            </xsd:sequence>
+          </xsd:extension>
+        </xsd:complexContent>
+      </xsd:complexType>
+      <xsd:element name="OrganizationServiceFault" nillable="true" type="tns:OrganizationServiceFault" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="IDiscoveryService_Execute_InputMessage">
+    <wsdl:part name="parameters" element="tns:Execute" />
+  </wsdl:message>
+  <wsdl:message name="IDiscoveryService_Execute_OutputMessage">
+    <wsdl:part name="parameters" element="tns:ExecuteResponse" />
+  </wsdl:message>
+  <wsdl:message name="IDiscoveryService_Execute_DiscoveryServiceFaultFault_FaultMessage">
+    <wsdl:part xmlns:q5="http://schemas.microsoft.com/xrm/2011/Contracts" name="detail" element="q5:DiscoveryServiceFault" />
+  </wsdl:message>
+  <wsdl:portType name="IDiscoveryService">
+    <wsdl:operation name="Execute">
+      <wsdl:input wsaw:Action="http://schemas.microsoft.com/xrm/2011/Contracts/Discovery/IDiscoveryService/Execute" message="tns:IDiscoveryService_Execute_InputMessage" />
+      <wsdl:output wsaw:Action="http://schemas.microsoft.com/xrm/2011/Contracts/Discovery/IDiscoveryService/ExecuteResponse" message="tns:IDiscoveryService_Execute_OutputMessage" />
+      <wsdl:fault wsaw:Action="http://schemas.microsoft.com/xrm/2011/Contracts/Discovery/IDiscoveryService/ExecuteDiscoveryServiceFaultFault" name="DiscoveryServiceFaultFault" message="tns:IDiscoveryService_Execute_DiscoveryServiceFaultFault_FaultMessage" />
+    </wsdl:operation>
+  </wsdl:portType>
+</wsdl:definitions>

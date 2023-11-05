@@ -1,0 +1,16 @@
+C:\Users\n.ahmadpoor\source\repos\ChangeDate\ChangeDate\bin\Debug\netcoreapp3.1\ChangeDate.exe
+C:\Users\n.ahmadpoor\source\repos\ChangeDate\ChangeDate\bin\Debug\netcoreapp3.1\ChangeDate.deps.json
+C:\Users\n.ahmadpoor\source\repos\ChangeDate\ChangeDate\bin\Debug\netcoreapp3.1\ChangeDate.runtimeconfig.json
+C:\Users\n.ahmadpoor\source\repos\ChangeDate\ChangeDate\bin\Debug\netcoreapp3.1\ChangeDate.runtimeconfig.dev.json
+C:\Users\n.ahmadpoor\source\repos\ChangeDate\ChangeDate\bin\Debug\netcoreapp3.1\ChangeDate.dll
+C:\Users\n.ahmadpoor\source\repos\ChangeDate\ChangeDate\bin\Debug\netcoreapp3.1\ChangeDate.pdb
+C:\Users\n.ahmadpoor\source\repos\ChangeDate\ChangeDate\obj\Debug\netcoreapp3.1\ChangeDate.csproj.AssemblyReference.cache
+C:\Users\n.ahmadpoor\source\repos\ChangeDate\ChangeDate\obj\Debug\netcoreapp3.1\ChangeDate.Form1.resources
+C:\Users\n.ahmadpoor\source\repos\ChangeDate\ChangeDate\obj\Debug\netcoreapp3.1\ChangeDate.csproj.GenerateResource.cache
+C:\Users\n.ahmadpoor\source\repos\ChangeDate\ChangeDate\obj\Debug\netcoreapp3.1\ChangeDate.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\n.ahmadpoor\source\repos\ChangeDate\ChangeDate\obj\Debug\netcoreapp3.1\ChangeDate.AssemblyInfoInputs.cache
+C:\Users\n.ahmadpoor\source\repos\ChangeDate\ChangeDate\obj\Debug\netcoreapp3.1\ChangeDate.AssemblyInfo.cs
+C:\Users\n.ahmadpoor\source\repos\ChangeDate\ChangeDate\obj\Debug\netcoreapp3.1\ChangeDate.csproj.CoreCompileInputs.cache
+C:\Users\n.ahmadpoor\source\repos\ChangeDate\ChangeDate\obj\Debug\netcoreapp3.1\ChangeDate.dll
+C:\Users\n.ahmadpoor\source\repos\ChangeDate\ChangeDate\obj\Debug\netcoreapp3.1\ChangeDate.pdb
+C:\Users\n.ahmadpoor\source\repos\ChangeDate\ChangeDate\obj\Debug\netcoreapp3.1\ChangeDate.genruntimeconfig.cache
